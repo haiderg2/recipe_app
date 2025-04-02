@@ -7,6 +7,7 @@ router.post('/recipes', recipeController.create);
 
 router.get('/recipes/:id', recipeController.getOne);
 router.delete('/recipes/:id', recipeController.delete);
+router.patch('/recipes/:id', recipeController.patch);
 
 
 

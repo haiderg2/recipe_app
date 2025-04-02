@@ -55,6 +55,63 @@ exports.create = async (ctx) => {
   }
 };
 
+exports.patch = async (ctx) => {
+  try {
+    const id = ctx.params.id;
+    const { title, description, prep_time, cook_time, instructions } = ctx.request.body;
+
+    // Build query dynamically based on provided fields
+    let query = 'UPDATE recipes SET ';
+    const fields = [];
+    const values = [];
+
+    if (title !== undefined) {
+      fields.push('title = ?');
+      values.push(title);
+    }
+    if (description !== undefined) {
+      fields.push('description = ?');
+      values.push(description);
+    }
+    if (prep_time !== undefined) {
+      fields.push('prep_time = ?');
+      values.push(prep_time);
+    }
+    if (cook_time !== undefined) {
+      fields.push('cook_time = ?');
+      values.push(cook_time);
+    }
+    if (instructions !== undefined) {
+      fields.push('instructions = ?');
+      values.push(instructions);
+    }
+
+    if (fields.length === 0) {
+      ctx.status = 400;
+      ctx.body = { error: 'No fields provided for update' };
+      return;
+    }
+
+    query += fields.join(', ') + ' WHERE id = ?';
+    values.push(id);
+
+    const [result] = await db.query(query, values);
+
+    if (result.affectedRows === 0) {
+      ctx.status = 404;
+      ctx.body = { error: 'Recipe not found' };
+      return;
+    }
+
+    ctx.body = { message: 'Recipe updated successfully' };
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to patch recipe' };
+  }
+};
+
+
 exports.delete = async (ctx) => {
   try {
     const id = ctx.params.id;
