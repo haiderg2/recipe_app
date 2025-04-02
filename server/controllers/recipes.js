@@ -10,6 +10,26 @@ exports.getAll = async (ctx) => {
   }
 };
 
+exports.getOne = async (ctx) => {
+  try {
+    const id = ctx.params.id;
+    const [rows] = await db.query('SELECT * FROM recipes WHERE id = ?', [id]);
+
+    if (rows.length === 0) {
+      ctx.status = 404;
+      ctx.body = { error: 'Recipe not found' };
+      return;
+    }
+
+    ctx.body = rows[0];
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to fetch recipe' };
+  }
+};
+
+
 
 exports.create = async (ctx) => {
   try {
