@@ -131,3 +131,62 @@ exports.delete = async (ctx) => {
     ctx.body = { error: 'Failed to delete recipe' };
   }
 };
+
+
+exports.getIngredients = async (ctx) => {
+  try {
+    const recipeId = ctx.params.id;
+    const [rows] = await db.query('SELECT * FROM ingredients WHERE recipe_id = ?', [recipeId]);
+    ctx.body = rows;
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to fetch ingredients' };
+  }
+};
+
+
+exports.addIngredient = async (ctx) => {
+  try {
+    const recipeId = ctx.params.id;
+    const { name, quantity, unit } = ctx.request.body;
+
+    if (!name || !quantity || !unit) {
+      ctx.status = 400;
+      ctx.body = { error: 'All fields (name, quantity, unit) are required' };
+      return;
+    }
+
+    const [result] = await db.query(
+      'INSERT INTO ingredients (recipe_id, name, quantity, unit) VALUES (?, ?, ?, ?)',
+      [recipeId, name, quantity, unit]
+    );
+
+    ctx.status = 201;
+    ctx.body = { message: 'Ingredient added', id: result.insertId };
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to add ingredient' };
+  }
+};
+
+
+exports.deleteIngredient = async (ctx) => {
+  try {
+    const ingredientId = ctx.params.id;
+    const [result] = await db.query('DELETE FROM ingredients WHERE id = ?', [ingredientId]);
+
+    if (result.affectedRows === 0) {
+      ctx.status = 404;
+      ctx.body = { error: 'Ingredient not found' };
+      return;
+    }
+
+    ctx.body = { message: 'Ingredient deleted' };
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to delete ingredient' };
+  }
+};
