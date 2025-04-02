@@ -2,17 +2,15 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const dotenv = require('dotenv');
 const recipeRoutes = require('./routes/recipes');
-const db = require('./db'); // MySQL connection
+const authRoutes = require('./routes/auth');
+const db = require('./db');
 
 
-// Load environment variables from .env
 dotenv.config();
 
-// Initialize Koa app
 const app = new Koa();
 app.use(bodyParser());
 
-// Test database connection
 (async () => {
   try {
     await db.query('SELECT 1');
@@ -22,10 +20,9 @@ app.use(bodyParser());
   }
 })();
 
-// Use routes
 app.use(recipeRoutes.routes()).use(recipeRoutes.allowedMethods());
+app.use(authRoutes.routes()).use(authRoutes.allowedMethods());
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
