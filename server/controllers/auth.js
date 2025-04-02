@@ -52,3 +52,8 @@ exports.login = async (ctx) => {
   const token = jwt.sign({ id: user.id, username: user.username }, SECRET, { expiresIn: '2h' });
   ctx.body = { message: 'Login successful', token };
 };
+
+exports.logout = async (ctx) => {
+    ctx.body = { message: 'Logged out successfully.' };
+  };
+  
