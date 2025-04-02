@@ -54,3 +54,23 @@ exports.create = async (ctx) => {
     ctx.body = { error: 'Failed to create recipe' };
   }
 };
+
+exports.delete = async (ctx) => {
+  try {
+    const id = ctx.params.id;
+
+    const [result] = await db.query('DELETE FROM recipes WHERE id = ?', [id]);
+
+    if (result.affectedRows === 0) {
+      ctx.status = 404;
+      ctx.body = { error: 'Recipe not found or already deleted' };
+      return;
+    }
+
+    ctx.body = { message: 'Recipe deleted successfully' };
+  } catch (err) {
+    console.error(err);
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to delete recipe' };
+  }
+};
