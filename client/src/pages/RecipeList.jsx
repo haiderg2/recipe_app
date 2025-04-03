@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
+
 
 const RecipeList = () => {
   const { token } = useContext(AuthContext);
@@ -28,6 +30,8 @@ const RecipeList = () => {
   }, [token]);
 
   return (
+      <>
+      <Navbar/>
     <div style={styles.page}>
       <h2 style={styles.heading}>All Recipes</h2>
 
@@ -35,10 +39,10 @@ const RecipeList = () => {
 
       <div style={styles.grid}>
         {recipes.length === 0 ? (
-          <p>No recipes found.</p>
-        ) : (
-          recipes.map(recipe => (
-            <div key={recipe.id} style={styles.card}>
+            <p>No recipes found.</p>
+            ) : (
+                recipes.map(recipe => (
+                    <div key={recipe.id} style={styles.card}>
               <h3 style={styles.title}>{recipe.title}</h3>
               <p style={styles.description}>{recipe.description}</p>
               <p style={styles.time}>
@@ -46,9 +50,10 @@ const RecipeList = () => {
               </p>
             </div>
           ))
-        )}
+          )}
       </div>
     </div>
+ </>
   );
 };
 
