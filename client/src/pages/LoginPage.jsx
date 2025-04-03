@@ -11,7 +11,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const API_URL = process.env.REACT_APP_API || 'https://miamiarctic-sugarmineral-5000.codio-box.uk';
+  const API_URL = process.env.REACT_APP_API || 'https://miamiarctic-sugarmineral-3000.codio-box.uk';
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,38 +33,82 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{
-      maxWidth: '400px',
-      margin: '80px auto',
-      padding: '30px',
-      border: '1px solid #ccc',
-      borderRadius: '10px',
-      boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-      textAlign: 'center'
-    }}>
-      <h2 style={{ marginBottom: '20px' }}>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          required
-          style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-          style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
-        />
-        <button type="submit" style={{ padding: '10px 20px', width: '100%' }}>Login</button>
-      </form>
-      {error && <p style={{ color: 'red', marginTop: '15px' }}>{error}</p>}
+    <div style={styles.wrapper}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Login to Your Recipe App</h2>
+        <form onSubmit={handleLogin} style={styles.form}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required
+            style={styles.input}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>Login</button>
+          {error && <p style={styles.error}>{error}</p>}
+        </form>
+      </div>
     </div>
   );
+};
+
+const styles = {
+  wrapper: {
+    height: '100vh',
+    background: '#f8f9fa',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card: {
+    background: '#ffffff',
+    padding: '40px 30px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  title: {
+    marginBottom: '25px',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  input: {
+    padding: '12px',
+    marginBottom: '15px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    fontSize: '16px',
+  },
+  button: {
+    padding: '12px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+  },
+  error: {
+    marginTop: '10px',
+    color: 'red',
+    textAlign: 'center',
+  },
 };
 
 export default LoginPage;
