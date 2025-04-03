@@ -10,10 +10,33 @@ exports.getAll = async (ctx) => {
   }
 };
 
+// exports.getOne = async (ctx) => {
+//   try {
+//     const id = ctx.params.id;
+//     const [rows] = await db.query('SELECT * FROM recipes WHERE id = ?', [id]);
+
+//     if (rows.length === 0) {
+//       ctx.status = 404;
+//       ctx.body = { error: 'Recipe not found' };
+//       return;
+//     }
+
+//     ctx.body = rows[0];
+//   } catch (err) {
+//     console.error(err);
+//     ctx.status = 500;
+//     ctx.body = { error: 'Failed to fetch recipe' };
+//   }
+// };
+
 exports.getOne = async (ctx) => {
   try {
     const id = ctx.params.id;
-    const [rows] = await db.query('SELECT * FROM recipes WHERE id = ?', [id]);
+
+    const [rows] = await db.query(
+      'SELECT id, title, description, prep_time, cook_time, instructions, user_id FROM recipes WHERE id = ?',
+      [id]
+    );
 
     if (rows.length === 0) {
       ctx.status = 404;
@@ -21,9 +44,9 @@ exports.getOne = async (ctx) => {
       return;
     }
 
-    ctx.body = rows[0];
+    ctx.body = rows[0]; // Includes user_id
   } catch (err) {
-    console.error(err);
+    console.error('Error fetching recipe:', err);
     ctx.status = 500;
     ctx.body = { error: 'Failed to fetch recipe' };
   }
@@ -31,29 +54,55 @@ exports.getOne = async (ctx) => {
 
 
 
-exports.create = async (ctx) => {
-  try {
-    const { title, description, prep_time, cook_time, instructions } = ctx.request.body;
+// exports.create = async (ctx) => {
+//   try {
+//     const { title, description, prep_time, cook_time, instructions } = ctx.request.body;
 
-    if (!title || !description || !instructions) {
+//     if (!title || !description || !instructions) {
+//       ctx.status = 400;
+//       ctx.body = { error: 'Missing required fields' };
+//       return;
+//     }
+
+//     const [result] = await db.query(
+//       'INSERT INTO recipes (title, description, prep_time, cook_time, instructions) VALUES (?, ?, ?, ?, ?)',
+//       [title, description, prep_time, cook_time, instructions]
+//     );
+
+//     ctx.status = 201;
+//     ctx.body = { message: 'Recipe created', id: result.insertId };
+//   } catch (err) {
+//     console.error(err);
+//     ctx.status = 500;
+//     ctx.body = { error: 'Failed to create recipe' };
+//   }
+// };
+
+exports.create = async (ctx) => {
+  const { title, description, prep_time, cook_time, instructions } = ctx.request.body;
+  const userId = ctx.state.user.id; // 👈 Get user ID from token
+
+  if (!title || !description || !instructions) {
       ctx.status = 400;
       ctx.body = { error: 'Missing required fields' };
       return;
-    }
+  }
 
+  try {
     const [result] = await db.query(
-      'INSERT INTO recipes (title, description, prep_time, cook_time, instructions) VALUES (?, ?, ?, ?, ?)',
-      [title, description, prep_time, cook_time, instructions]
+      'INSERT INTO recipes (title, description, prep_time, cook_time, instructions, user_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [title, description, prep_time, cook_time, instructions, userId]
     );
 
     ctx.status = 201;
-    ctx.body = { message: 'Recipe created', id: result.insertId };
+    ctx.body = { message: 'Recipe added', id: result.insertId };
   } catch (err) {
-    console.error(err);
+    console.error('Failed to add recipe:', err);
     ctx.status = 500;
-    ctx.body = { error: 'Failed to create recipe' };
+    ctx.body = { error: 'Failed to add recipe' };
   }
 };
+
 
 exports.patch = async (ctx) => {
   try {
