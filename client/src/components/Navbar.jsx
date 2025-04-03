@@ -18,7 +18,7 @@ const Navbar = () => {
       </div>
       <div style={styles.right}>
         <Link to="/recipes" style={styles.link}>Home</Link>
-        {/* <Link to="/add" style={styles.link}>Add Recipe</Link> */}
+        <Link to="/add" style={styles.link}>Add Recipe</Link>
         <button onClick={handleLogout} style={styles.logout}>Logout</button>
       </div>
     </nav>
