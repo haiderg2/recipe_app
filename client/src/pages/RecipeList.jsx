@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
-
 
 const RecipeList = () => {
   const { token } = useContext(AuthContext);
@@ -30,30 +30,36 @@ const RecipeList = () => {
   }, [token]);
 
   return (
-      <>
-      <Navbar/>
-    <div style={styles.page}>
-      <h2 style={styles.heading}>All Recipes</h2>
+    <>
+      <Navbar />
+      <div style={styles.page}>
+        <h2 style={styles.heading}>All Recipes</h2>
 
-      {error && <p style={styles.error}>{error}</p>}
+        {error && <p style={styles.error}>{error}</p>}
 
-      <div style={styles.grid}>
-        {recipes.length === 0 ? (
+        <div style={styles.grid}>
+          {recipes.length === 0 ? (
             <p>No recipes found.</p>
-            ) : (
-                recipes.map(recipe => (
-                    <div key={recipe.id} style={styles.card}>
-              <h3 style={styles.title}>{recipe.title}</h3>
-              <p style={styles.description}>{recipe.description}</p>
-              <p style={styles.time}>
-                ⏱️ Prep: {recipe.prep_time} mins | Cook: {recipe.cook_time} mins
-              </p>
-            </div>
-          ))
+          ) : (
+            recipes.map(recipe => (
+              <Link
+                to={`/recipes/${recipe.id}`}
+                key={recipe.id}
+                style={{ textDecoration: 'none' }}
+              >
+                <div style={styles.card}>
+                  <h3 style={styles.title}>{recipe.title}</h3>
+                  <p style={styles.description}>{recipe.description}</p>
+                  <p style={styles.time}>
+                    ⏱️ Prep: {recipe.prep_time} mins | Cook: {recipe.cook_time} mins
+                  </p>
+                </div>
+              </Link>
+            ))
           )}
+        </div>
       </div>
-    </div>
- </>
+    </>
   );
 };
 
