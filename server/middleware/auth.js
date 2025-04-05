@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     ctx.status = 401;
-    ctx.body = { error: 'Authorization header missing or invalid' };
+    ctx.body = { error: 'You are not Authorized to perform this action.' };
     return;
   }
 

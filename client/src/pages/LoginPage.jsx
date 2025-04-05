@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext);
@@ -55,6 +55,9 @@ const LoginPage = () => {
           <button type="submit" style={styles.button}>Login</button>
           {error && <p style={styles.error}>{error}</p>}
         </form>
+        <p style={styles.link}>
+          Don’t have an account? <Link to="/register">Sign Up</Link>
+        </p>
       </div>
     </div>
   );
@@ -107,6 +110,11 @@ const styles = {
     marginTop: '10px',
     color: 'red',
     textAlign: 'center',
+  },
+  link: {
+    marginTop: '15px',
+    textAlign: 'center',
+    fontSize: '14px',
   },
 };
 
