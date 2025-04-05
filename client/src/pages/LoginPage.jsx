@@ -23,7 +23,6 @@ const LoginPage = () => {
         password,
       });
 
-      console.log('✅ Logged in:', res.data);
       login(res.data.token);
       navigate('/recipes');
     } catch (err) {

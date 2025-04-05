@@ -21,7 +21,6 @@ const RecipeDetail = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRecipe(res.data);
-        console.log(res.data);
       } catch (err) {
         setError('Failed to load recipe');
         console.error(err);
