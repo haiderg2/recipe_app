@@ -1,34 +1,18 @@
-# 🍽️ Recipe Manager App (React + Koa + MySQL)
+# Recipe Manager App (React + Koa + MySQL)
 
 A full-stack recipe management web application that allows users to register, log in, create and manage recipes, and optionally add ingredients to each recipe.
 
----
+## Features
 
-## 🚀 Features
+- User Authentication – Register, login, logout using JWT  
+- Recipe Management – Add, edit, delete your recipes  
+- Ingredient Support – Add ingredients to recipes when creating or editing  
+- Recipe Details – View full recipe with instructions and ingredients  
+- Protected Routes – Only authors can edit or delete their own recipes  
+- Testing – Mocha & Chai tests for API endpoints  
+- Responsive UI – Clean interface built with custom CSS  
 
-- 🔐 **User Authentication** – Register, login, logout using JWT
-- 📝 **Recipe Management** – Add, edit, delete your recipes
-- 🧂 **Ingredient Support** – Add ingredients to recipes when creating or editing
-- 📋 **Recipe Details** – View full recipe with instructions and ingredients
-- ✅ **Protected Routes** – Only authors can edit or delete their own recipes
-- 🧪 **Testing** – Mocha & Chai tests for API endpoints
-- 💻 **Responsive UI** – Clean interface built with custom CSS
-
----
-
-## 🛠️ Tech Stack
-
-| Layer     | Tech Used                                |
-|-----------|-------------------------------------------|
-| Frontend  | React (Vite), React Router DOM, Axios     |
-| Backend   | Node.js, Koa.js, MySQL2 (Promise)         |
-| Auth      | JWT for session tokens, bcrypt for hashing |
-| Testing   | Mocha + Chai                              |
-| Styling   | Custom CSS (global.css)                   |
-
----
-
-## 📦 Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -37,18 +21,14 @@ git clone https://github.com/haiderg2/recipe_app.git
 cd recipe-app
 ```
 
----
-
 ### 2. Backend Setup
 
 ```bash
 cd server
 npm install
 cp .env.example .env    # Configure DB credentials
-npm run start             # or: node index.js
+npm run start           # or: node index.js
 ```
-
----
 
 ### 3. Frontend Setup
 
@@ -57,8 +37,6 @@ cd client
 npm install
 npm run start
 ```
-
----
 
 ### 4. Database Setup (MySQL)
 
@@ -93,9 +71,7 @@ CREATE TABLE ingredients (
 );
 ```
 
----
-
-## 🧪 Running Tests
+## Running Tests
 
 ```bash
 cd server
@@ -105,19 +81,12 @@ npm test
 Tests cover:
 - GET /recipes
 - GET /recipes/:id
-- (Add more as needed)
 
----
+## Credits
 
-## 🙌 Credits
+Developed by Gulfam for the 6003CEM Individual Coursework.
 
-Developed by **Gulfam** for the 6003CEM Individual Coursework.
+## Contact
 
----
-
-## 📬 Contact
-
-- GitHub: [https://github.com/haiderg2/]
-- Email: [haiderg2@coventry.ac.uk]
-
----
+- GitHub: https://github.com/haiderg2/
+- Email: haiderg2@coventry.ac.uk
